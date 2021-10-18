@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib import messages
 from django.http import HttpResponse
 from django.http import JsonResponse
 import json
+from .models import *
 
 # main page function
 
@@ -12,6 +13,36 @@ def index(request):
         return redirect("login")
     return render(request, 'main.html')
 
+
+def home(request):
+    all_products = Product.objects.all()
+    context = { 'all_products':all_products}
+    return render(request, 'home.html', context)
+
+def category(request):
+    return render(request, "category.html") 
+
+def detail(request, id):
+    filtered_product = get_object_or_404(Product, pk=id)
+    if filtered_product:
+        primary_picture = filtered_product.get_primary_picture()
+        secondary_pictures = filtered_product.get_all_pictures() #[query]
+    else:
+        messages.error(request, "Given product address is invalid!")
+        return redirect("application:home")
+    
+    context = {
+        'product' : filtered_product,
+        'secondary_pictures': secondary_pictures,
+        'primary_picture': primary_picture
+    }
+    return render(request, "detail.html", context)
+
+def sign_up(request):
+    return render(request, "sign-up.html")
+
+def sign_in(request):
+    return render(request, "sign-in.html")
 
 # function for signup
 
@@ -79,3 +110,10 @@ def logout(request):
     auth.logout(request)
     return redirect("index")
 
+
+def all_categories(request):
+    all_categories = Category.objects.all()
+    context = {
+        'all_categories' : all_categories,
+    }
+    return render(request, "all_categories.html", context)

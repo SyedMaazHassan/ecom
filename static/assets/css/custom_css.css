@@ -1,0 +1,25 @@
+@media screen and (max-width:768px) {
+    .card-img {
+        width: 150px !important;
+        height: 150px !important;
+    }
+}
+
+@media screen and (max-width:320px) {
+    .card-img {
+        width: 300px !important;
+        height: auto !important;
+    }
+}
+
+.category{
+    display: block;
+    transition-property: all !important;
+    transition-duration: 0.1s !important;
+    transition-timing-function: ease-in-out !important;
+}
+
+.category:hover{
+    cursor: pointer !important;
+    transform: scale(0.98) !important;
+}
