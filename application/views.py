@@ -5,115 +5,113 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 import json
 from .models import *
+from django.contrib import auth
+from django.shortcuts import redirect, render
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from .forms import CreateUserForm
+from django.contrib import messages
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # main page function
 
-def index(request):
-    if not request.user.is_authenticated:
-        return redirect("login")
-    return render(request, 'main.html')
-
-
 def home(request):
     all_products = Product.objects.all()
-    context = { 'all_products':all_products}
+    context = {'all_products': all_products}
     return render(request, 'home.html', context)
 
-def category(request):
-    return render(request, "category.html") 
 
+@login_required(login_url='application:sign_in')
+def category(request):
+    return render(request, "category.html")
+
+@login_required(login_url='application:sign_in')
 def detail(request, id):
     filtered_product = get_object_or_404(Product, pk=id)
     if filtered_product:
         primary_picture = filtered_product.get_primary_picture()
-        secondary_pictures = filtered_product.get_all_pictures() #[query]
+        secondary_pictures = filtered_product.get_all_pictures()  # [query]
     else:
         messages.error(request, "Given product address is invalid!")
         return redirect("application:home")
-    
+
     context = {
-        'product' : filtered_product,
+        'product': filtered_product,
         'secondary_pictures': secondary_pictures,
         'primary_picture': primary_picture
     }
     return render(request, "detail.html", context)
 
-def sign_up(request):
-    return render(request, "sign-up.html")
-
-def sign_in(request):
-    return render(request, "sign-in.html")
-
-# function for signup
-
-def signup(request):
-    if request.method == "POST":
-        name = request.POST['name']
-        l_name = request.POST['l_name']
-        email = request.POST['email']
-        pass1 = request.POST['pass1']
-        pass2 = request.POST['pass2']
-        context = {
-            "name":name,
-            "l_name":l_name,
-            "email":email,
-            "pass1":pass1,
-            "pass2":pass2,
-        }
-        if pass1==pass2:
-            if User.objects.filter(username=email).exists():
-                print("Email already taken")
-                messages.info(request, "Entered email already in use!")
-                context['border'] = "email" 
-                return render(request, "signup.html", context)
-
-            user = User.objects.create_user(username=email, first_name=name, password=pass1, last_name=l_name)
-            user.save()
-            
-            return redirect("login")
-        else:
-            messages.info(request, "Your pasword doesn't match!")
-            context['border'] = "password"
-            return render(request, "signup.html", context)
 
 
-    
-    return render(request, "signup.html")
-
-
-# function for login
-
-def login(request):
-
-    if request.method == "POST":
-        email = request.POST['email']
-        password = request.POST['password']
-        context = {
-            'email': email,
-            'password': password
-        }
-        user = auth.authenticate(username=email, password=password)
-        if user is not None:
-            auth.login(request, user)
-            return redirect("index")
-        else:
-            messages.info(request, "Incorrect login details!")
-            return render(request, "login.html", context)
-            # return redirect("login")
-    else:
-        return render(request, "login.html")
-
-
-# function for logout
-
-def logout(request):
-    auth.logout(request)
-    return redirect("index")
-
-
+@login_required(login_url='application:sign_in')
 def all_categories(request):
     all_categories = Category.objects.all()
     context = {
-        'all_categories' : all_categories,
+        'all_categories': all_categories,
     }
     return render(request, "all_categories.html", context)
+
+# FUNCTION FOR SIGN-UP
+
+
+def sign_up(request):
+    if request.user.is_authenticated:
+        return redirect('application:home')
+
+    else:
+        form = CreateUserForm()
+        if request.method == "POST":
+            form_data = request.POST
+            form = CreateUserForm(form_data)
+            if form.is_valid():
+                form.save()
+                user_name = form.cleaned_data.get('username')
+                messages.success(
+                    request, f"Account for {user_name} has been successfully made")
+                return HttpResponseRedirect(reverse('application:sign-in'))
+
+        context = {
+            'form': form
+        }
+        return render(request, 'sign-up.html', context)
+
+# FUNCTION FOR SIGN-IN
+
+
+def sign_in(request):
+    if request.user.is_authenticated:
+        return redirect('application:home')
+    else:
+        next_param = request.GET.get('next')
+        if request.method == "POST":
+
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            next_param = request.POST.get('next')
+
+            user = authenticate(request, username=email, password=password)
+            print(user)
+
+            if user is not None:
+                login(request, user)
+                redirection_url = f"{reverse('application:home')}{next_param}"
+                print(f"Reverse URL: {reverse('application:home')}")
+                print(f"Next Value: {next_param}")
+                print(f"Redirection URL: {redirection_url}")
+                return redirect(f"{next_param}")
+
+            else:
+                messages.error(request, f"Username or Password is Incorrect:(")
+
+        context = {}
+        return render(request, 'sign-in.html', context)
+
+# FUNCTION FOR LOGOUT
+
+
+def sign_out(request):
+    logout(request)
+    return redirect('application:home')

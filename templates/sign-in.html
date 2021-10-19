@@ -27,6 +27,8 @@
 
     <!-- Icons/Glyphs -->
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/custom_css.css' %}">
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Barlow:200,300,300i,400,400i,500,500i,600,700,800"
@@ -46,13 +48,23 @@
             <div class="container">
                 <div class="header-top-inner">
                     <div class="cnt-account">
-                        <ul class="list-unstyled">
-                            <li class="myaccount"><a href="#"><span>My Account</span></a></li>
-                            <li class="wishlist"><a href="#"><span>Wishlist</span></a></li>
-                            <li class="header_cart hidden-xs"><a href="#"><span>My Cart</span></a></li>
-                            <li class="check"><a href="#"><span>Checkout</span></a></span></li>
-                            <li class="login"><a href="#"><span>Login</span></a></li>
-                        </ul>
+                        <ul style="margin-top: 1.8rem;" class="list-unstyled">
+                            {% if user.is_authenticated %}
+                            <li class="myaccount"><a href="#"><span style="color: white;" class="menu-link"><b>Hey {{ user.first_name }} {{ user.last_name }}</b></span></a></li>
+                            <li class="wishlist"><a href="#"><span class="menu-link">My Wishlist</span></a></li>
+                            <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a></li>
+                            <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+                            <li class="login"><a href="{% url 'application:sign_out' %}"><span class="menu-link">Log Out</span></a></li>
+                            
+                            {% else %}
+                            <li class="login"><a href="{% url 'application:sign_in' %}"><span class="menu-link">Log In</span></a></li>
+                            <li class="login"><a href="{% url 'application:sign_up' %}"><span class="menu-link">Sign Up</span></a></li>
+                            <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a></li>
+                            <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+                            
+                            {% endif %}
+                            
+                          </ul>
                     </div>
                     <!-- /.cnt-account -->
 
@@ -454,30 +466,39 @@
                     <!-- Sign-in -->
                     <div class="col-md-12 col-sm-12 sign-in">
                         <h4 class="">Sign in</h4>
-                        <p class="">Hello, Welcome to your account.</p>
-                        <div class="social-sign-in outer-top-xs">
+                        <h3 style="color: #40b62c;" class="">Hello, Welcome to your account.</h3>
+                        <!-- <div class="social-sign-in outer-top-xs">
                             <a href="#" class="facebook-sign-in"><i class="fa fa-facebook"></i> Sign In with
                                 Facebook</a>
                             <a href="#" class="twitter-sign-in"><i class="fa fa-twitter"></i> Sign In with Twitter</a>
-                        </div>
-                        <form class="register-form outer-top-xs" role="form">
+                        </div> -->
+
+                        <form action="" method="POST" class="register-form outer-top-xs">
+                            {% csrf_token %}
+
                             <div class="form-group">
                                 <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
                                 <input type="email" class="form-control unicase-form-control text-input"
-                                    id="exampleInputEmail1">
+                                    id="exampleInputEmail1" name="email">
                             </div>
                             <div class="form-group">
                                 <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
                                 <input type="password" class="form-control unicase-form-control text-input"
-                                    id="exampleInputPassword1">
+                                    id="exampleInputPassword1" name="password">
                             </div>
-                            <div class="radio outer-xs">
+                            {% for message in messages %}
+                                <p style="color: red !important; font-size: 1.8rem;">
+                                   {{ message }} 
+                                </p>
+                            {% endfor %}
+                            <!-- <div class="radio outer-xs">
                                 <label>
                                     <input type="radio" name="optionsRadios" id="optionsRadios2"
                                         value="option2">Remember me!
                                 </label>
                                 <a href="#" class="forgot-password pull-right">Forgot your Password?</a>
-                            </div>
+                            </div> -->
+                            <input type="hidden" name="next" value="{{ request.GET.next }}" />
                             <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
                         </form>
                     </div>

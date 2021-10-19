@@ -52,17 +52,32 @@
             <div class="container">
                 <div class="header-top-inner">
                     <div class="cnt-account">
-                        <ul class="list-unstyled">
-                            <li class="myaccount"><a href="#"><span>My Account</span></a></li>
-                            <li class="wishlist"><a href="#"><span>Wishlist</span></a></li>
-                            <li class="header_cart hidden-xs"><a href="#"><span>My Cart</span></a></li>
-                            <li class="check"><a href="#"><span>Checkout</span></a></li>
-                            <li class="login"><a href="#"><span>Login</span></a></li>
+                        <ul style="margin-top: 1.8rem;" class="list-unstyled">
+                            {% if user.is_authenticated %}
+                            <li class="myaccount"><a href="#"><span style="color: white;" class="menu-link"><b>Hey {{ user.first_name }} {{ user.last_name }}</b></span></a></li>
+                            <li class="wishlist"><a href="#"><span class="menu-link">My Wishlist</span></a></li>
+                            <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a>
+                            </li>
+                            <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+                            <li class="login"><a href="{% url 'application:sign_out' %}"><span class="menu-link">Log
+                                        Out</span></a></li>
+
+                            {% else %}
+                            <li class="login"><a href="{% url 'application:sign_in' %}"><span class="menu-link">Log
+                                        In</span></a></li>
+                            <li class="login"><a href="{% url 'application:sign_up' %}"><span class="menu-link">Sign
+                                        Up</span></a></li>
+                            <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a>
+                            </li>
+                            <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+
+                            {% endif %}
+
                         </ul>
                     </div>
                     <!-- /.cnt-account -->
 
-                    <div class="cnt-block">
+                    <!-- <div class="cnt-block">
                         <ul class="list-unstyled list-inline">
                             <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle"
                                     data-hover="dropdown" data-toggle="dropdown"><span class="value">USD </span><b
@@ -82,9 +97,9 @@
                                     <li><a href="#">German</a></li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul> -->
                         <!-- /.list-unstyled -->
-                    </div>
+                    <!-- </div> -->
                     <!-- /.cnt-cart -->
                     <div class="clearfix"></div>
                 </div>
@@ -451,7 +466,8 @@
                         All Categories
                     </h1>
                     {% for category in all_categories %}
-                    <div style="display: flex; justify-content: center; align-items: center;" class="col-lg-2 col-md-2 col-sm-6 col-6">
+                    <div style="display: flex; justify-content: center; align-items: center;"
+                        class="col-lg-2 col-md-2 col-sm-6 col-6">
                         <div style="padding-bottom: 2rem;" class="card">
                             <img style="width: 150px; height: 150px; border-radius: 12px;"
                                 src="media/{{ category.icon }}" class="category card-img img-fluid card-img-top"

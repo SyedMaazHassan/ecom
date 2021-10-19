@@ -24,9 +24,12 @@
   <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
   <link rel="stylesheet" href="{% static 'assets/css/rateit.css' %}">
   <link rel="stylesheet" href="{% static 'assets/css/bootstrap-select.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/custom_css.css' %}">
+
 
   <!-- Icons/Glyphs -->
   <link rel="stylesheet" href="{% static 'assets/css/font-awesome.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/custom_css.css' %}">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Barlow:200,300,300i,400,400i,500,500i,600,700,800"
@@ -46,12 +49,22 @@
       <div class="container">
         <div class="header-top-inner">
           <div class="cnt-account">
-            <ul class="list-unstyled">
-              <li class="myaccount"><a href="#"><span>My Account</span></a></li>
-              <li class="wishlist"><a href="#"><span>Wishlist</span></a></li>
-              <li class="header_cart hidden-xs"><a href="#"><span>My Cart</span></a></li>
-              <li class="check"><a href="#"><span>Checkout</span></a></span></li>
-              <li class="login"><a href="#"><span>Login</span></a></li>
+            <ul style="margin-top: 1.8rem;" class="list-unstyled">
+              {% if user.is_authenticated %}
+              <li class="myaccount"><a href="#"><span style="color: white;" class="menu-link"><b>Hey {{ user.first_name }} {{ user.last_name }}</b></span></a></li>
+              <li class="wishlist"><a href="#"><span class="menu-link">My Wishlist</span></a></li>
+              <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a></li>
+              <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+              <li class="login"><a href="{% url 'application:sign_out' %}"><span class="menu-link">Log Out</span></a></li>
+              
+              {% else %}
+              <li class="login"><a href="{% url 'application:sign_in' %}"><span class="menu-link">Log In</span></a></li>
+              <li class="login"><a href="{% url 'application:sign_up' %}"><span class="menu-link">Sign Up</span></a></li>
+              <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a></li>
+              <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+              
+              {% endif %}
+              
             </ul>
           </div>
           <!-- /.cnt-account -->
@@ -413,7 +426,7 @@
       <div class="breadcrumb-inner">
         <ul class="list-inline list-unstyled">
           <li><a href="home.html">Home</a></li>
-          <li class='active'>Login</li>
+          <li class='active'>Sign Up</li>
         </ul>
       </div><!-- /.breadcrumb-inner -->
     </div><!-- /.container -->
@@ -457,27 +470,56 @@
           <div class="col-md-12 col-sm-12 create-new-account">
             <h4 class="checkout-subtitle">Create a new account</h4>
             <p class="text title-tag-line">Create your new account.</p>
-            <form class="register-form outer-top-xs" role="form">
+            <form method="POST" class="register-form outer-top-xs">
+              {% csrf_token %}
               <div class="form-group">
-                <label class="info-title" for="exampleInputEmail2">Email Address <span>*</span></label>
-                <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail2">
+                <label class="sign-up-label info-title" for="exampleInputEmail2">Email Address <span>*</span></label>
+                <!-- <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail2"> -->
+                <p>
+                  {{ form.username }}
+                </p>
               </div>
+
               <div class="form-group">
-                <label class="info-title" for="exampleInputEmail1">Name <span>*</span></label>
-                <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+                <label class="sign-up-label info-title" for="exampleInputEmail1">First Name<span>*</span></label>
+                <!-- <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1"> -->
+                <p>
+                 <p>
+                    {{ form.first_name }}
+                 </p>
+                </p>
               </div>
+
               <div class="form-group">
-                <label class="info-title" for="exampleInputEmail1">Phone Number <span>*</span></label>
-                <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+                <label class="sign-up-label info-title" for="exampleInputEmail1">Last Name<span>*</span></label>
+                <!-- <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1"> -->
+                <p>
+                  {{ form.last_name }}
+                </p>
               </div>
+
               <div class="form-group">
-                <label class="info-title" for="exampleInputEmail1">Password <span>*</span></label>
-                <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+                <label class="sign-up-label info-title" for="exampleInputEmail1">Password <span>*</span></label>
+                <!-- <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1"> -->
+                <p>
+                  {{ form.password1 }}
+                </p>
               </div>
+
               <div class="form-group">
-                <label class="info-title" for="exampleInputEmail1">Confirm Password <span>*</span></label>
-                <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+                <label class="sign-up-label info-title" for="exampleInputEmail1">Confirm Password <span>*</span></label>
+                <!-- <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1"> -->
+                <p>
+                  {{ form.password2 }}
+                </p>
               </div>
+
+              <div class="container">
+                <p>
+                  {{ form.errors }}
+                </p>
+              </div>
+          
               <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Sign Up</button>
             </form>
 
