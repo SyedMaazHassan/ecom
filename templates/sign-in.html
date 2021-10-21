@@ -37,6 +37,24 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,600italic,700,700italic,800'
         rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <style>
+        .sign-in-inputs{
+            border: solid 1px #cccccc;
+            color: black;
+            padding: 0.6rem 0.6rem 0.6rem 0.6rem;
+            font-size: 1.8rem;
+            width: 100%;
+            transition-property: all;
+            transition-duration: 0.15s;
+            transition-timing-function: ease-in-out;
+            border-radius: 0.5rem;
+        }
+        .sign-in-inputs:focus-within{
+            outline: none;
+            border: solid 1px #157ed2;
+        }
+    </style>
 </head>
 
 <body class="cnt-home">
@@ -51,9 +69,9 @@
                         <ul style="margin-top: 1.8rem;" class="list-unstyled">
                             {% if user.is_authenticated %}
                             <li class="myaccount"><a href="#"><span style="color: white;" class="menu-link"><b>Hey {{ user.first_name }} {{ user.last_name }}</b></span></a></li>
-                            <li class="wishlist"><a href="#"><span class="menu-link">My Wishlist</span></a></li>
+                            <li class="wishlist"><a href="{% url 'application:wishlist' %}"><span class="menu-link">My Wishlist</span></a></li>
                             <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a></li>
-                            <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+                            <li class="check"><a href="{% url 'application:profile' %}"><span class="menu-link">Profile</span></a></li>
                             <li class="login"><a href="{% url 'application:sign_out' %}"><span class="menu-link">Log Out</span></a></li>
                             
                             {% else %}
@@ -105,7 +123,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
                         <!-- ============================================================= LOGO ============================================================= -->
-                        <div class="logo"> <a href="home.html"> <img src="{% static 'assets/images/logo.png' %}"
+                        <div class="logo"> <a href="{% url 'application:home' %}"> <img src="{% static 'assets/images/logo.png' %}"
                                     alt="logo"> </a> </div>
                         <!-- /.logo -->
                         <!-- ============================================================= LOGO : END ============================================================= -->
@@ -478,12 +496,12 @@
 
                             <div class="form-group">
                                 <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-                                <input type="email" class="form-control unicase-form-control text-input"
+                                <input type="email" class="sign-in-inputs form-control unicase-form-control text-input"
                                     id="exampleInputEmail1" name="email">
                             </div>
                             <div class="form-group">
                                 <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
-                                <input type="password" class="form-control unicase-form-control text-input"
+                                <input type="password" class="sign-in-inputs form-control unicase-form-control text-input"
                                     id="exampleInputPassword1" name="password">
                             </div>
                             {% for message in messages %}
@@ -685,7 +703,7 @@
                             <!-- /.module-heading -->
 
                             <div class="module-body">
-                                <ul class="toggle-footer" style="">
+                                <ul class="toggle-footer">
                                     <li class="media">
                                         <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i
                                                     class="fa fa-map-marker fa-stack-1x fa-inverse"></i> </span> </div>

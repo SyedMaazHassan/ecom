@@ -25,10 +25,11 @@
     <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/rateit.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap-select.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/custom_css.css' %}">
 
     <!-- Icons/Glyphs -->
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/custom_css.css' %}">
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Barlow:200,300,300i,400,400i,500,500i,600,700,800"
@@ -39,9 +40,25 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 
+    <style>
+        .update-fields {
+            border: solid 1px #cccccc;
+            color: black;
+            padding: 0.6rem 0.6rem 0.6rem 0.6rem;
+            font-size: 1.8rem;
+            width: 100%;
+            transition-property: all;
+            transition-duration: 0.15s;
+            transition-timing-function: ease-in-out;
+            border-radius: 0.5rem;
+        }
 
+        .update-fields:focus-within {
+            outline: none;
+            border: solid 1px #157ed2;
+        }
+    </style>
 </head>
-
 
 <body class="cnt-home">
     <!-- ============================================== HEADER ============================================== -->
@@ -59,14 +76,13 @@
                             <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a>
                             </li>
                             <li class="check"><a href="{% url 'application:profile' %}"><span class="menu-link">Profile</span></a></li>
-                            <li class="login"><a href="{% url 'application:sign_out' %}"><span class="menu-link">Log
-                                        Out</span></a></li>
+                            <li class="login"><a href="{% url 'application:sign_out' %}"><span class="menu-link">Log Out</span></a>
+                            </li>
 
                             {% else %}
-                            <li class="login"><a href="{% url 'application:sign_in' %}"><span class="menu-link">Log
-                                        In</span></a></li>
-                            <li class="login"><a href="{% url 'application:sign_up' %}"><span class="menu-link">Sign
-                                        Up</span></a></li>
+                            <li class="login"><a href="{% url 'application:sign_in' %}"><span class="menu-link">Log In</span></a></li>
+                            <li class="login"><a href="{% url 'application:sign_up' %}"><span class="menu-link">Sign Up</span></a>
+                            </li>
                             <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a>
                             </li>
                             <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
@@ -78,27 +94,25 @@
                     <!-- /.cnt-account -->
 
                     <!-- <div class="cnt-block">
-                        <ul class="list-unstyled list-inline">
-                            <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle"
-                                    data-hover="dropdown" data-toggle="dropdown"><span class="value">USD </span><b
-                                        class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">USD</a></li>
-                                    <li><a href="#">INR</a></li>
-                                    <li><a href="#">GBP</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown dropdown-small lang"> <a href="#" class="dropdown-toggle"
-                                    data-hover="dropdown" data-toggle="dropdown"><span class="value">English </span><b
-                                        class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">German</a></li>
-                                </ul>
-                            </li>
-                        </ul> -->
-                        <!-- /.list-unstyled -->
+            <ul class="list-unstyled list-inline">
+              <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown"
+                  data-toggle="dropdown"><span class="value">USD </span><b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">USD</a></li>
+                  <li><a href="#">INR</a></li>
+                  <li><a href="#">GBP</a></li>
+                </ul>
+              </li>
+              <li class="dropdown dropdown-small lang"> <a href="#" class="dropdown-toggle" data-hover="dropdown"
+                  data-toggle="dropdown"><span class="value">English </span><b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">English</a></li>
+                  <li><a href="#">French</a></li>
+                  <li><a href="#">German</a></li>
+                </ul>
+              </li>
+            </ul> -->
+                    <!-- /.list-unstyled -->
                     <!-- </div> -->
                     <!-- /.cnt-cart -->
                     <div class="clearfix"></div>
@@ -458,28 +472,144 @@
 
     <!-- ============================================== HEADER : END ============================================== -->
     <div class="body-content outer-top-vs" id="top-banner-and-menu">
+        <div class="container">
+            <div class="row">
 
-        <div class="container">  
-                <div class="row">
-                    <h1 style="padding-bottom: 25px;" class="text-center">
-                        All Categories
-                    </h1>
-                    {% for category in all_categories %}
-                    <a style="color: black;" href="{% url 'application:category' category.id %}">
-                        <div style="display: flex; justify-content: center; align-items: center;"
-                            class="col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div style="padding-bottom: 2rem;" class="card">
-                                <img style="width: 150px; height: 150px; border-radius: 12px;"
-                                    src="media/{{ category.icon }}" class="category card-img img-fluid card-img-top"
-                                    alt="{{ category.name }}">
-                                <div class="card-body">
-                                    <h4 style="padding-top: 0.5rem;" class="text-center card-text">{{ category.name }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    {% endfor %}
+                <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            margin-bottom: 5rem;" class="col-md-4 col-12">
+                    <div class="cotainer">
+                        <img style="width: 200px; border-radius: 15px;"
+                            src="{% static 'assets/images/testimonials/profile.jpg' %}" alt="profile">
+                        <h3 style="font-weight: 800;">{{ user.first_name }} {{ user.last_name }}</h3>
+                        <p style="font-size: 1.8rem;">
+                            {{ user.username }}</p>
+                        <a href="{% url 'application:wishlist' %}">
+                            <button type="button" class="btn btn-primary">GO TO WISHLIST</button>
+                        </a>
+                    </div>
                 </div>
+
+                <div style="display: flex; align-items: center; justify-content: center ;" class="col-md-8 col-12">
+                    <div style="width: 100%;" class="row">
+
+                        <!-- create a new account -->
+                        <div class="col-md-12 col-sm-12 create-new-account">
+                            <h2 class="checkout-subtitle">Update Profile</h2>
+                            <form method="POST" class="register-form outer-top-xs">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label class="sign-up-label info-title" for="exampleInputEmail2">Email Address
+                                        </label>
+                                    <p>
+                                        <input type="email"
+                                            class="update-fields form-control unicase-form-control text-input"
+                                            id="exampleInputEmail2" name="username" value="{{ user.username }}">
+                                    </p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sign-up-label info-title" for="exampleInputEmail1">First
+                                        Name</label>
+                                    <p>
+                                    <p>
+                                        <input type="text"
+                                            class="update-fields form-control unicase-form-control text-input"
+                                            id="exampleInputEmail2" name="first_name" value="{{ user.first_name }}">
+                                    </p>
+                                    </p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sign-up-label info-title" for="exampleInputEmail1">Last
+                                        Name</label>
+                                    <p>
+                                        <input type="text"
+                                            class="update-fields form-control unicase-form-control text-input"
+                                            id="exampleInputEmail2" name="last_name" value="{{ user.last_name }}">
+                                    </p>
+                                </div>
+
+
+                                <div class="container">
+                                    <p>
+                                        {{ form.errors }}
+                                    </p>
+                                </div>
+
+                                <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Submit</button>
+                            </form>
+
+
+                        </div>
+                        <!-- create a new account -->
+                    </div><!-- /.row -->
+                </div>
+            </div>
+            <!-- /.row -->
+            <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+            <div id="brands-carousel" class="logo-slider">
+                <div class="logo-slider-inner">
+                    <div id="brand-slider" class="owl-carousel brand-slider custom-carousel owl-theme">
+                        <div class="item m-t-15"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand1.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item m-t-10"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand2.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand3.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand4.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand5.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand6.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand2.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand4.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand1.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+
+                        <div class="item"> <a href="#" class="image"> <img
+                                    data-echo="{% static 'assets/images/brands/brand5.png' %}"
+                                    src="{% static 'assets/images/blank.gif' %}" alt=""> </a> </div>
+                        <!--/.item-->
+                    </div>
+                    <!-- /.owl-carousel #logo-slider -->
+                </div>
+                <!-- /.logo-slider-inner -->
+
+            </div>
+            <!-- /.logo-slider -->
+            <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
         </div>
         <!-- /.container -->
     </div>

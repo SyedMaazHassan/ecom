@@ -28,7 +28,7 @@
     font-size: 1.8rem !important;
 }
 
-#id_username, #id_first_name, #id_last_name, #id_password1, #id_password2{
+#id_username, #id_first_name, #id_last_name, #id_password1, #id_password2, .sign-in-inputs{
     border: solid 1px #cccccc;
     color: black;
     padding: 0.6rem 0.6rem 0.6rem 0.6rem;
@@ -40,7 +40,7 @@
     border-radius: 0.5rem;
 }
 
-#id_username:focus-within, #id_first_name:focus-within, #id_last_name:focus-within, #id_password1:focus-within, #id_password2:focus-within{
+#id_username:focus-within, #id_first_name:focus-within, #id_last_name:focus-within, #id_password1:focus-within, #id_password2:focus-within, .sign-in-inputs:focus-within{
     outline: none;
     border: solid 1px #157ed2;
 }
@@ -57,3 +57,4 @@
 .menu-link{
     font-size: 1.8rem;
 }
+

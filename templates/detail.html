@@ -52,9 +52,9 @@
             <ul style="margin-top: 1.8rem;" class="list-unstyled">
               {% if user.is_authenticated %}
               <li class="myaccount"><a href="#"><span style="color: white;" class="menu-link"><b>Hey {{ user.first_name }} {{ user.last_name }}</b></span></a></li>
-              <li class="wishlist"><a href="#"><span class="menu-link">My Wishlist</span></a></li>
+              <li class="wishlist"><a href="{% url 'application:wishlist' %}"><span class="menu-link">My Wishlist</span></a></li>
               <li class="header_cart hidden-xs"><a href="#"><span class="menu-link">My Cart</span></a></li>
-              <li class="check"><a href="#"><span class="menu-link">Checkout</span></a></li>
+              <li class="check"><a href="{% url 'application:profile' %}"><span class="menu-link">Profile</span></a></li>
               <li class="login"><a href="{% url 'application:sign_out' %}"><span class="menu-link">Log Out</span></a></li>
               
               {% else %}
@@ -104,7 +104,7 @@
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
             <!-- ============================================================= LOGO ============================================================= -->
-            <div class="logo"> <a href="home.html"> <img src="{% static 'assets/images/logo.png' %}" alt="logo"> </a> </div>
+            <div class="logo"> <a href="{% url 'application:home' %}"> <img src="{% static 'assets/images/logo.png' %}" alt="logo"> </a> </div>
             <!-- /.logo -->
             <!-- ============================================================= LOGO : END ============================================================= -->
           </div>
@@ -436,10 +436,7 @@
       <div class='row single-product'>
         <div class='col-xs-12 col-sm-12 col-md-3 sidebar'>
           <div class="sidebar-module-container">
-            <div class="home-banner outer-top-n outer-bottom-xs">
-              <img src="{% static 'assets/images/banners/LHS-banner.jpg' %}" alt="Image">
-            </div>
-
+           
 
 
             <!-- ============================================== HOT DEALS ============================================== -->
@@ -605,48 +602,11 @@
             <!-- ============================================== HOT DEALS: END ============================================== -->
 
             <!-- ============================================== NEWSLETTER ============================================== -->
-            <div class="sidebar-widget newsletter outer-bottom-small outer-top-vs">
-              <h3 class="section-title">Newsletters</h3>
-              <div class="sidebar-widget-body outer-top-xs">
-                <p>Sign Up for Our Newsletter!</p>
-                <form>
-                  <div class="form-group">
-                    <label class="sr-only" for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1"
-                      placeholder="Subscribe to our newsletter">
-                  </div>
-                  <button class="btn btn-primary">Subscribe</button>
-                </form>
-              </div><!-- /.sidebar-widget-body -->
-            </div><!-- /.sidebar-widget -->
+            
             <!-- ============================================== NEWSLETTER: END ============================================== -->
 
             <!-- ============================================== Testimonials============================================== -->
-            <div class="sidebar-widget  outer-top-vs ">
-              <div id="advertisement" class="advertisement">
-                <div class="item">
-                  <div class="avatar"><img src="{% static 'assets/images/testimonials/member1.png' %}" alt="Image"></div>
-                  <div class="testimonials"><em>"</em> Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc
-                    condime tum metus eud molest sed consectetuer.<em>"</em></div>
-                  <div class="clients_author">John Doe <span>Abc Company</span> </div><!-- /.container-fluid -->
-                </div><!-- /.item -->
-
-                <div class="item">
-                  <div class="avatar"><img src="{% static 'assets/images/testimonials/member3.png' %}" alt="Image"></div>
-                  <div class="testimonials"><em>"</em>Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc
-                    condime tum metus eud molest sed consectetuer.<em>"</em></div>
-                  <div class="clients_author">Stephen Doe <span>Xperia Designs</span> </div>
-                </div><!-- /.item -->
-
-                <div class="item">
-                  <div class="avatar"><img src="{% static 'assets/images/testimonials/member2.png' %}" alt="Image"></div>
-                  <div class="testimonials"><em>"</em> Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc
-                    condime tum metus eud molest sed consectetuer.<em>"</em></div>
-                  <div class="clients_author">Saraha Smith <span>Datsun &amp; Co</span> </div><!-- /.container-fluid -->
-                </div><!-- /.item -->
-
-              </div><!-- /.owl-carousel -->
-            </div>
+            
 
             <!-- ============================================== Testimonials: END ============================================== -->
 
@@ -806,7 +766,7 @@
                     <div class="quantity-container info-container">
                       <div class="row">
 
-                        <div class="qty">
+                        <!-- <div class="qty">
                           <span class="label">Qty :</span>
                         </div>
 
@@ -822,11 +782,10 @@
                               <input type="text" value="1">
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
                         <div class="add-btn">
-                          <a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO
-                            CART</a>
+                          <a href="{{ product.aff_link }}" target="_blank" class="btn btn-primary"></i>GO TO PRODUCT</a>
                         </div>
 
 

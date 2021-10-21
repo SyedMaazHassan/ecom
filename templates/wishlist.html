@@ -98,7 +98,7 @@
                                 </ul>
                             </li>
                         </ul> -->
-                        <!-- /.list-unstyled -->
+                    <!-- /.list-unstyled -->
                     <!-- </div> -->
                     <!-- /.cnt-cart -->
                     <div class="clearfix"></div>
@@ -459,29 +459,77 @@
     <!-- ============================================== HEADER : END ============================================== -->
     <div class="body-content outer-top-vs" id="top-banner-and-menu">
 
-        <div class="container">  
+        <div class="container">
+            <!-- <a style="color: black;" href="{% url 'application:products' 1 %}"> -->
+                
                 <div class="row">
                     <h1 style="padding-bottom: 25px;" class="text-center">
-                        All Categories
+                        Wishlist
                     </h1>
-                    {% for category in all_categories %}
-                    <a style="color: black;" href="{% url 'application:category' category.id %}">
-                        <div style="display: flex; justify-content: center; align-items: center;"
-                            class="col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div style="padding-bottom: 2rem;" class="card">
-                                <img style="width: 150px; height: 150px; border-radius: 12px;"
-                                    src="media/{{ category.icon }}" class="category card-img img-fluid card-img-top"
-                                    alt="{{ category.name }}">
-                                <div class="card-body">
-                                    <h4 style="padding-top: 0.5rem;" class="text-center card-text">{{ category.name }}</h4>
-                                </div>
+                    {% for product in all_products %}
+                    <div style="margin-bottom: 1rem; display: flex; justify-content: center; align-items: center;"
+                        class="col-lg-2 col-md-2 col-sm-6 col-6">
+                        <div style="padding-bottom: 2rem;" class="card">
+                            <a href="{% url 'application:products' product.id %}">
+                            <img style="width: 150px; height: 150px; border-radius: 5px;"
+                                src="media/{{ product.get_primary_picture }}" class="category card-img img-fluid card-img-top"
+                                alt="{{ product.name }}"></a>
+                            <div class="card-body">
+                                <div class="product-info text-left">
+                                    <h3 class="name"><a href="{% url 'application:products' product.id %}">{{ product.name }}</a></h3>
+                                    <div class="rating rateit-small rateit"><button id="rateit-reset-2" data-role="none"
+                                        class="rateit-reset" aria-label="reset rating" aria-controls="rateit-range-2"
+                                        style="display: none;"></button>
+                                      <div id="rateit-range-2" class="rateit-range" tabindex="0" role="slider"
+                                        aria-label="rating" aria-owns="rateit-reset-2" aria-valuemin="0" aria-valuemax="5"
+                                        aria-valuenow="4" aria-readonly="true" style="width: 70px; height: 14px;">
+                                        <div class="rateit-selected" style="height: 14px; width: 56px;"></div>
+                                        <div class="rateit-hover" style="height:14px"></div>
+                                      </div>
+                                    </div>
+                                    <div class="description">
+                                      <p>
+                                        {{ product.tag_line }}
+                                      </p>
+                                    </div>
+                                    <div class="product-price"> <span style="margin-right: 1rem;" class="price">$ {{ product.price }} </span> 
+                                        <span
+                                        class="price-before-discount"><strike>$ {{ product.price | addition:100 }}</strike></span> </div>
+                                    <!-- /.product-price -->
+        
+                                  </div>
+                                  <!-- /.product-info -->
+                                  <div class="cart clearfix animate-effect">
+                                    <div class="action">
+                                      <ul class="list-unstyled">
+        
+                                        <li class="add-cart-button btn-group">
+                                          <!-- <button class="btn btn-primary icon" data-toggle="dropdown" type="button"></button> -->
+                                          <a target="_blank" href="{{ product.aff_link }}">
+                                            <button class="btn btn-primary cart-btn" type="button"> <i style="margin-right: 0.5rem;"
+                                                class="fa fa-shopping-cart"></i>GO TO PRODUCT</button>
+                                          </a>
+                                        </li>
+                                        <!-- <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li> -->
+        
+                                        <!-- <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i
+                                              class="fa fa-signal"></i> </a> </li> -->
+                                      </ul>
+                                    </div>
+                                    <!-- /.action -->
+                                  </div>
+                              
                             </div>
                         </div>
-                    </a>
+                    </div>
                     {% endfor %}
                 </div>
+               
+            <!-- </a> -->
         </div>
-        <!-- /.container -->
+
+    </div>
+    <!-- /.container -->
     </div>
     <!-- /#top-banner-and-menu -->
 
