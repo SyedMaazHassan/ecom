@@ -1,0 +1,23 @@
+<div class="side-menu animate-dropdown outer-bottom-xs">
+    <div class="head"><i class="icon fa fa-align-justify fa-fw"></i><a style="color: rgb(77, 77, 77);"
+        href="{% url 'application:all_categories' %}">Categories</a></div>
+    <nav class="yamm megamenu-horizontal">
+      <ul class="nav">
+        {% for category in categories %}
+        <li class="dropdown menu-item {% if my_cat %}{% if my_cat.id == category.id %}cat_active{% endif %}{% endif %}"> 
+            <a href="{% url 'application:category' category.id %}">{{ category.name }} ({{ category.get_product_count }})</a>
+          <!-- /.dropdown-menu -->
+        </li>
+        {% endfor %}
+        <!-- /.menu-item -->
+
+       
+          <!-- ================================== MEGAMENU VERTICAL ================================== -->
+        
+        <!-- /.menu-item -->
+
+      </ul>
+      <!-- /.nav -->
+    </nav>
+    <!-- /.megamenu-horizontal -->
+  </div>

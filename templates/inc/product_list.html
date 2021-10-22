@@ -1,0 +1,122 @@
+{% load static %}
+{% load mathfilters %}
+
+<div class="row mb-5">
+    {% for product in all_products %}
+
+    <div class="col-sm-6 col-md-4 col-lg-3">
+
+      <div class="item">
+
+        <div class="products">
+
+          <div class="product"  style="border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(185, 185, 185, 0.2), 0 6px 20px 0 rgba(185, 185, 185, 0.2);">
+            <div class="product-image">
+              <div class="image">
+                <a href="{% url 'application:products' product.id %}">
+                  <img src="media/{{ product.get_primary_picture }}" style="border-radius: 10px 10px 0px 0px;" alt="">
+                  <img src="media/{{ product.get_primary_picture }}" style="border-radius: 10px 10px 0px 0px;" alt="" class="hover-image">
+                </a>
+              </div>
+              <!-- /.image -->
+
+              <!-- <div class="tag new"><span>new</span></div> -->
+            </div>
+            <!-- /.product-image -->
+
+            <div class="product-info text-left" >
+              <div style="padding: 0px 10px 5px 10px;">
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <a href="{% url 'application:products' product.id %}">
+                            <h3 class="text-dark">{{ product.name }}</h3>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-3 d-flex align-items-center justify-content-center">
+                        <div class="mt-5">
+                            <i id="product_{{product.id}}" class="material-icons text-primary favorite_icon" onclick="toggle_favorite('{{ product.id }}')" style="margin-top: 20px;">favorite_border</i>
+                        </div>
+                     
+
+                    </div>
+                </div>
+                
+                <div class="description">
+                    <p>
+                    {{ product.tag_line }}
+                    </p>
+                </div>
+                <div class="product-price"> <span class="price">$ {{ product.price }} </span> <span
+                    class="price-before-discount">$ {{ product.price | addition:100 }}</span> </div>
+                <!-- /.product-price -->
+                </div>
+
+            </div>
+            <!-- /.product-info -->
+            
+            <!-- /.cart -->
+          </div>
+
+          <br>
+          <!-- /.product -->
+
+        </div>
+        <!-- /.products -->
+      </div>
+      </a>
+    </div>
+    <!-- /.item -->
+    {% endfor %}
+
+    {% if not all_products %}
+        <div class="col-sm-12 col-md-12 text-center col-lg-12 pb-0 mb-0">
+            <div class="alert alert-warning" role="alert">
+                No product exists right
+            </div>
+        </div>
+    {% endif %}
+    <!-- /.item -->
+  </div>
+
+
+  <script>
+      function toggle_favorite(id) {
+          let product_id = id;
+          
+          axios.get("{% url 'application:mark-as-favorite' %}", {
+                params: {
+                    id: product_id
+                }
+            })
+            .then(function (response) {
+                if (response.data.status) {
+                    console.log(response.data);
+                    if (response.data.auth){
+                        if (response.data.favorite) {
+                            $(`#product_${product_id}`).text("favorite");
+                        }else{
+                            $(`#product_${product_id}`).text("favorite_border");
+                        }
+                    }else{
+                        if (confirm("Sign-in required to like the product, Do you want to sign-in now?")) {
+                            window.location.href = "{% url 'application:sign_in' %}";
+                        }
+                    }
+
+                }
+            });
+      }
+
+      setTimeout(() => {
+        axios
+        .get("{% url 'application:get-favorites' %}")
+        .then(function (response) {
+            for (let i = 0; i < response.data.ids.length; i++) {
+                let id = response.data.ids[i];
+                $(`#product_${id}`).text("favorite");
+            }
+        });
+      }, 500);
+  </script>
